@@ -1,6 +1,5 @@
-# Readme.md
+# README.md
 # Problem Statement 
-
 # Team 
 • Sai Venkat Dhulipudi  [Team Leader]</br>
 • S S Aparna Rajeswari  [Back-End Developer]</br>
