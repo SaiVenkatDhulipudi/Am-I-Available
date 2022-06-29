@@ -1,9 +1,11 @@
-from PIL import Image, ImageFont, ImageDraw 
+from PIL import Image, ImageFont, ImageDraw
 import PIL
 class IDmaker:
     def __init__(self,data) -> None:
         my_image = Image.open("Faculty_registration/ID.jpg")
-        my_image=my_image.rotate(-90,PIL.Image.NEAREST, expand = 1)
+        paste_image=Image.open("Faculty_registration/QR.jpeg")
+        paste_image=paste_image.resize((1090,1090))
+        my_image.paste(paste_image,(500,700))
         title_font = ImageFont.truetype('Faculty_registration/BebasNeue-Regular.ttf',120)
         image_editable = ImageDraw.Draw(my_image)
         image_editable.text((780,2050),data["ID"], (0, 0,0), font=title_font)
@@ -13,9 +15,14 @@ class IDmaker:
         image_editable.text((780,2650),data["phNo"], (0, 0,0), font=title_font)
         my_image.save("Faculty_registration/result.jpg")
 data=dict()
-data["name"]="Sai Venkat Dhulipudi"
-data["Dept"]="CSE"
-data["phNo"]="9014038339"
-data["ID"]="11234"
-data["designation"]="Student"
+data["name"]="V Swathi"
+"""
+if len lessthan equal to 25 then 120
+if len lessthan equal to 30 then 100
+formulae if greater than 
+"""
+data["Dept"]="SalesForce"
+data["phNo"]="6304905773"
+data["ID"]="788041"
+data["designation"]="Jr Software Engineer"
 IDmaker(data)

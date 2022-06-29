@@ -17,6 +17,6 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 urlpatterns = [
-    path("",views.home,name="home"),
-    path('',views.Faculty_registration,name="Faculty_registration")
+    path("",views.home1,name="home"),
+    path('Registration',views.Faculty_registration,name="Registration")
 ]

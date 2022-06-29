@@ -11,14 +11,39 @@
       var confirmPassword = document.getElementById("txtConfirmPassword").value;
       if (password != confirmPassword) {
           alert("Passwords do not match.");
+          document.getElementById("Button").disabled = true;
           return false;
       }
+      document.getElementById("Button").disabled = false;
       return true;
+  }
+  function Validatename()
+  {
+    var fname=String(document.getElementById("pname").value);
+    var len=fname.length
+    if(len>30)
+    {
+      alert("Name is too long please enter valid name with 25-30 characters");
+      document.getElementById("Button").disabled = true;
+      return false;
+    }
+    document.getElementById("Button").disabled = false;
+    return true;
+  }
+  function isfit()
+  {
+    if(!Validate() || !Validatename())
+    {
+      document.getElementById("Button").disabled = true;
+      return false;
+    }
+    document.getElementById("Button").disabled = false;
+    return true;
   }
   </script>
 </head>
 <body>
-<form action="Faculty_registration" method="POST">
+<form action="Registration" method="POST">
   {% csrf_token %}
 <div class="wrapper">
     <div class="title">
@@ -30,9 +55,13 @@
           <input required name="first_name" type="text" class="input">
        </div>  
         <div class="inputfield">
-          <label>Last Name</label>
-          <input required name="last_name"type="text" class="input">
-       </div>  
+          <label>Surname</label>
+          <input required name="surname"type="text" class="input" >
+        </div>
+      <div class="inputfield">
+        <label>Prefered Name </label>
+        <input required name="Prefered Name On ID card" type="text" class="input" id="pname" onChange="Validatename();">
+      </div>  
        <div class="inputfield">
           <label>Password</label>
           <input required name="pass1"type="password" id="txtPassword" class="input" >
@@ -90,11 +119,13 @@
        </div> 
       
       <div class="inputfield">
-        <input type="submit" value="Register" class="btn" >
+        <input type="submit" value="Register" class="btn" id="Button" onclick="isfit();" >
+      </div>
+      <div class="inputfield">
+        <button type="button" class="btn" formaction="send_file">Download</button>
       </div>
     </div>
 </div>
 </form>	
-	
 </body>
 </html>
