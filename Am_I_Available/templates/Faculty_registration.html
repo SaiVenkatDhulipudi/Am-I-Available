@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Form</title>
-	<link rel="stylesheet" href="/static/main.css">
+	<link rel="stylesheet" href="/static/css/main.css">
   <script >
     function Validate() {
       var password = document.getElementById("txtPassword").value;
@@ -43,7 +43,7 @@
   </script>
 </head>
 <body>
-<form action="Registration" method="POST">
+<form action="Faculty_Registration" method="POST">
   {% csrf_token %}
 <div class="wrapper">
     <div class="title">
@@ -56,11 +56,11 @@
        </div>  
         <div class="inputfield">
           <label>Surname</label>
-          <input required name="surname"type="text" class="input" >
+          <input required name="surname"type="text" placeholder="enter surname" class="input" >
         </div>
       <div class="inputfield">
         <label>Prefered Name </label>
-        <input required name="Prefered Name On ID card" type="text" class="input" id="pname" onChange="Validatename();">
+        <input required name="Prefered_Name" type="text" class="input" id="pname" onChange="Validatename();">
       </div>  
        <div class="inputfield">
           <label>Password</label>
@@ -90,6 +90,8 @@
             <option value="CIVIL">Civil Engineering</option>
             <option value="ECE">Electronics and Communication Engineering</option>
             <option value="EEE">Electrical and Electronics Engineering</option>
+            <option value="ECM">ECM</option>
+            <option value="IT">Information Technology</option>
             <option value="MECH">Mechanical Engineering</option>
             <option value="EC">Examination Cell</option>
             <option value="BS&H">BS&H</option>
@@ -113,16 +115,9 @@
           <label>Address</label>
           <textarea required name="address"class="textarea"></textarea>
        </div> 
+
       <div class="inputfield">
-          <label>Postal Code</label>
-          <input  name="postal_code"required type="text" class="input">
-       </div> 
-      
-      <div class="inputfield">
-        <input type="submit" value="Register" class="btn" id="Button" onclick="isfit();" >
-      </div>
-      <div class="inputfield">
-        <button type="button" class="btn" formaction="send_file">Download</button>
+        <input type="submit" value="Register" class="btn"  onclick="isfit();" >
       </div>
     </div>
 </div>
