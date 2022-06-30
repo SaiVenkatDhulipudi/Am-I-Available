@@ -54,7 +54,7 @@ if __name__=='__main__':
             x=(encry(dat))
             status=check(x)
             if status!=None:
-                status=db.child("status").child(x).set(1 if status==0 else 0)
+                status=db.child("status").child(x).set("Available")
                 speak("Authorised")
                 exit()
         

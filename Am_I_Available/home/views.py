@@ -1,11 +1,12 @@
-from django.shortcuts import render
-from django.http import FileResponse,HttpResponse
+from django.shortcuts import render,redirect
+from django.http import FileResponse,HttpResponse,JsonResponse
 import pyrebase
 from PIL import Image, ImageFont, ImageDraw
 from collections import defaultdict
 import qrcode
 from cryptography.fernet import Fernet
 import PIL
+import json
 class branch:
     def __init__(self) -> None:
         self.departments=defaultdict(lambda:'')
@@ -69,6 +70,10 @@ class helper():
         qr.add_data(data)
         img = qr.make_image() 
         img.save(pat)
+def home(request):
+    return redirect('/')
+def home1(request):
+    return render(request,"index1.html")
 def login(request):
     if request.method=="POST":
         mail=request.POST["email"]
@@ -77,14 +82,14 @@ def login(request):
             help=helper()
             auth=help.auth
             db=help.db
-            br=branch()
             user=auth.sign_in_with_email_and_password(mail,passw)
             request.session["sessionid"]=user['localId']
             flag=0
+            br=branch()
             for i in br.departments:
                 dat=db.child("faculty").child(i).get().val()
                 # print(dat)
-                if len(dat):
+                if dat!=None and len(dat):
                     for id in dat:
                         if dat[id]["email"]==mail:
                             request.session["faculty"]=id
@@ -101,6 +106,7 @@ def logout(request):
     if request.session.get("sessionid",False):
         del request.session["sessionid"]
         return render(request,"index1.html")
+    return redirect("/")
 def signup(request):
     if request.method=="POST":
         email=request.POST["email"]
@@ -114,7 +120,7 @@ def signup(request):
             user=auth.create_user_with_email_and_password(email, password)
             auth.send_email_verification(user['idToken'])
             request.session["sessionid"]=user['localId']
-            return render(request,"index1.html")
+            return redirect("/")
         except:
             return render(request,"signup.html")
             
@@ -124,7 +130,7 @@ def status(request):
     if request.method=="POST":
         db=help.db
         data=db.child("status").child(id).set(request.POST["status"])
-        return render(request,"index1.html")
+        return redirect("/")
     id=request.session["faculty"]
     help=helper()
     auth=help.auth
@@ -132,10 +138,23 @@ def status(request):
     data=db.child("status").child(id).get()
     return render(request,"statusform.html",{"status":data.val()})
 def search(request):
-    pass
-    
-def home1(request):
-    return render(request,"index1.html")
+    if request.method!="POST":
+        help=helper()
+        auth=help.auth
+        db=help.db
+        br=branch()
+        responses={}
+        for i in br.departments:
+            dat=db.child("faculty").child(i).get().val()
+            if dat!=None and len(dat):
+                for id in dat:
+                    responses[id]=dat[id]["name"]
+        print(responses)
+        return render(request,"search.html",{'resp':responses})
+            
+                    
+    return render(request,"search.html")
+
 def Faculty_registration(request):
     if request.method=="POST":
         data=defaultdict(lambda:0)
@@ -156,11 +175,11 @@ def Faculty_registration(request):
         data['designation']=request.POST["designation"]
         data["phNo"]=request.POST["contact"]
         data["first_name"]=request.POST["first_name"]
-        data["first_name"]=request.POST["surname"]
+        data["Surname"]=request.POST["surname"]
         data["address"]=request.POST["address"]
         data["email"]=request.POST["email"]
         db.child("faculty").child(request.POST["dept"]).child(data["ID"]).set(data)
-        db.child("status").child(data["ID"]).set(0)
+        db.child("status").child(data["ID"]).set("Unavailable")
         help.qrgen(data["ID"])
         id=IDmaker(data)
         return send_file(request,data["ID"])

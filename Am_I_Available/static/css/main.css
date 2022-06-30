@@ -151,15 +151,15 @@ body{
   font-size: 15px; 
   border: 0px;
   background:  #4070f4;
-  color: #fff;
+  color: #4070f4;
   cursor: pointer;
   border-radius: 3px;
   outline: none;
 }
 
-.wrapper .form .inputfield .btn:hover{
+/* .wrapper .form .inputfield .btn:hover{
   background: #4070f4;
-}
+} */
 
 .wrapper .form .inputfield:last-child{
   margin-bottom: 0;
