@@ -157,9 +157,9 @@ body{
   outline: none;
 }
 
-/* .wrapper .form .inputfield .btn:hover{
+.wrapper .form .inputfield .btn:hover{
   background: #4070f4;
-} */
+}
 
 .wrapper .form .inputfield:last-child{
   margin-bottom: 0;
