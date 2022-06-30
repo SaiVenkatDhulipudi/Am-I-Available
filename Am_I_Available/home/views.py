@@ -71,22 +71,71 @@ class helper():
         img.save(pat)
 def login(request):
     if request.method=="POST":
-        email=request.POST["email"]
+        mail=request.POST["email"]
         passw=request.POST["pass1"]
         try:
             help=helper()
             auth=help.auth
-            user=auth.sign_in_with_email_and_password(email,passw)
-            print(user)
-            # request.set_cookie("sessionid",user['idToken'])
-            return render(request,"index.html")
+            db=help.db
+            br=branch()
+            user=auth.sign_in_with_email_and_password(mail,passw)
+            request.session["sessionid"]=user['localId']
+            flag=0
+            for i in br.departments:
+                dat=db.child("faculty").child(i).get().val()
+                # print(dat)
+                if len(dat):
+                    for id in dat:
+                        if dat[id]["email"]==mail:
+                            request.session["faculty"]=id
+                            flag=1
+                            break
+                    if flag:
+                        x=db.child("status").child(request.session["faculty"]).get().val()
+                        return render(request,"index1.html",{"status":x})
+            return render(request,"index1.html")
         except:
             return render(request,"login.html",{"message":"Enter vaild Credentials"})
     return render(request,"login.html")
+def logout(request):
+    if request.session.get("sessionid",False):
+        del request.session["sessionid"]
+        return render(request,"index1.html")
 def signup(request):
+    if request.method=="POST":
+        email=request.POST["email"]
+        passw=request.POST["pass1"]
+        help=helper()
+        auth=help.auth
+        db=help.db
+        email=request.POST["email"]
+        password=request.POST["pass1"]
+        try:
+            user=auth.create_user_with_email_and_password(email, password)
+            auth.send_email_verification(user['idToken'])
+            request.session["sessionid"]=user['localId']
+            return render(request,"index1.html")
+        except:
+            return render(request,"signup.html")
+            
+        
     return render(request,"signup.html")
+def status(request):
+    if request.method=="POST":
+        db=help.db
+        data=db.child("status").child(id).set(request.POST["status"])
+        return render(request,"index1.html")
+    id=request.session["faculty"]
+    help=helper()
+    auth=help.auth
+    db=help.db
+    data=db.child("status").child(id).get()
+    return render(request,"statusform.html",{"status":data.val()})
+def search(request):
+    pass
+    
 def home1(request):
-    return render(request,"index.html")
+    return render(request,"index1.html")
 def Faculty_registration(request):
     if request.method=="POST":
         data=defaultdict(lambda:0)
@@ -96,7 +145,8 @@ def Faculty_registration(request):
         email=request.POST["email"]
         password=request.POST["pass1"]
         user=auth.create_user_with_email_and_password(email, password)
-        auth.send_email_verification(user['localId'])
+        auth.send_email_verification(user['idToken'])
+        request.session["sessionid"]=user['localId']
         branc=branch()
         x=(db.child("faculty").child(request.POST["dept"])).get()
         x=x.val()
@@ -118,7 +168,6 @@ def Faculty_registration(request):
         return render(request,'Faculty_registration.html')
 
 def send_file(response,ID):
-
     img = open('static/img/{}.jpg'.format(ID), 'rb')
     response = FileResponse(img)
     return response

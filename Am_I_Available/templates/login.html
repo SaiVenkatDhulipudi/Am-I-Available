@@ -1,7 +1,5 @@
 {% extends "index.html" %}
 {% block content %}
-<link rel="stylesheet" href="/static/css/main.css">
-
 <form action="login" method="POST">
     {% csrf_token %}
   <div class="wrapper">
@@ -18,16 +16,11 @@
             <input required name="pass1" placeholder="Enter your password" type="password" class="input" >
          </div>   
         <div class="inputfield">
-           <label>      </label>
           <input type="submit" value="Login" class="btn" >
-          <label>      </label>
         </div>
         <label>      </label>
-        <label>{{message}}</label>
-        <label>      </label>
-
-          
-    
+        <label><a href="signup">Create an Account?</a></label>
+        
       </div>
   </div>
   </form>	

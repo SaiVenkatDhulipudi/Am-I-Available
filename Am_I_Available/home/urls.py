@@ -20,6 +20,8 @@ urlpatterns = [
     path("",views.home1,name="home"),
     path("login",views.login,name="login"),
     path("signup",views.signup,name="signup"),
-    path('Faculty_Registration',views.Faculty_registration,name="Registration")
-
+    path('logout',views.logout,name="logout"),
+    path('status',views.status,name="status"),
+    path("Search",views.search,name="search"),
+    path('Faculty_Registration',views.Faculty_registration,name="Registration"),
 ]
