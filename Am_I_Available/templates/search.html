@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+{% block content %}
+<form action="Search" method="POST">
+    {% csrf_token %}
+    <div class="wrapper">
+        <div class="title">
+          Search
+        </div>
+        <div class="form">
+            <div class="inputfield">
+              <label>Select</label>
+              <div class="custom_select">
+                <select name="emp" required>
+                  <option value="">select</option>
+                  {% for key,value in responses.items  %}
+                  <option value="{{key}}">{{value}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+           </div> 
+          <div class="inputfield">
+            <input type="submit" value="submit" class="btn">
+          </div>
+        </div>
+    </div>
+  </form>
+  {% endblock %}
+  

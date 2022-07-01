@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% block content %}
+<form action="login" method="POST">
+    {% csrf_token %}
+  <div class="wrapper">
+      <div class="title">
+        Login
+      </div>
+      <div class="form">
+        <div class="inputfield">
+            <label>Email Address</label>
+            <input required name="email" placeholder="Enter your E-Mail"type="text" class="input">
+         </div>
+         <div class="inputfield">
+            <label>Password</label>
+            <input required name="pass1" placeholder="Enter your password" type="password" class="input" >
+         </div>   
+        <div class="inputfield">
+          <input type="submit" value="Login" class="btn" >
+        </div>
+        <label>      </label>
+        <label><a href="signup">Create an Account?</a></label>
+        
+      </div>
+  </div>
+  </form>	
+{% endblock %}

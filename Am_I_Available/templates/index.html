@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title >Am I Available</title>
+  <link rel="stylesheet" href="static/css/style.css">
+	<link rel="stylesheet" href="/static/css/main.css">
+  <link rel="stylesheet" href="/static/css/svg.css">
+  
+  <script >
+    function Validate() {
+      var password = document.getElementById("txtPassword").value;
+      var confirmPassword = document.getElementById("txtConfirmPassword").value;
+      if (password != confirmPassword) {
+          alert("Passwords do not match.");
+          document.getElementById("Button").disabled = true;
+          return false;
+      }
+      document.getElementById("Button").disabled = false;
+      return true;
+  }
+  function Validatename()
+  {
+    var fname=String(document.getElementById("pname").value);
+    var len=fname.length
+    if(len>30)
+    {
+      alert("Name is too long please enter valid name with 25-30 characters");
+      document.getElementById("Button").disabled = true;
+      return false;
+    }
+    document.getElementById("Button").disabled = false;
+    return true;
+  }
+  function isfit()
+  {
+    if(!Validate() || !Validatename())
+    {
+      document.getElementById("Button").disabled = true;
+      return false;
+    }
+    document.getElementById("Button").disabled = false;
+    return true;
+  }
+  </script>
+</head>
+<body>
+
+<header class="header">
+	<div class="container">
+		<nav class="navbar">
+			<a href="home" class="brand">Am I Available ?</a>
+			<div class="burger" id="burger">
+				<span class="burger-line"></span>
+				<span class="burger-line"></span>
+				<span class="burger-line"></span>
+			</div>
+			<span class="overlay"></span>
+			<div class="menu" id="menu">
+				<ul class="menu-inner">
+					<li class="menu-item"><a class="menu-link" href="home">Home</a></li>
+					<li class="menu-item"><a class="menu-link" href="Search">Search</a></li>
+          {%if request.session.sessionid and request.session.faculty%}
+					<li class="menu-item"><a class="menu-link" href="status">Update Status</a>
+            {%else%}
+            <li class="menu-item"><a class="menu-link" href="#">About</a></li>
+            {%endif%}
+          </li>
+				</ul>
+			</div>
+      {%if request.session.sessionid and request.session.status%}
+			<a href="updatestatus" class="menu-block">{{request.session.status}}</a>
+      {% endif %}
+      {% if request.session.sessionid %}
+			<a href="logout" class="menu-block">Logout</a>
+      {%else%}
+      <a href="login" class="menu-block">Login</a>
+      {% endif %}
+		</nav>
+	</div>
+</header>
+<br>
+<br>
+<br>
+<script  src="static/js/script.js"></script>
+{% block content %}
+{% endblock %}
+</body>
+</html>

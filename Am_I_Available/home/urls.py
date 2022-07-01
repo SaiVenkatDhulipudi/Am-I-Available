@@ -17,6 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from . import views
 urlpatterns = [
-    path("",views.home1,name="home"),
-    path('Registration',views.Faculty_registration,name="Registration")
+    path("",views.home1,name="home1"),
+    path("home",views.home,name="home"),
+    path("login",views.login,name="login"),
+    path("signup",views.signup,name="signup"),
+    path('logout',views.logout,name="logout"),
+    path('status',views.status,name="status"),
+    path("Search",views.search,name="search"),
+    path('Faculty_Registration',views.Faculty_registration,name="Registration"),
+    path('updatestatus',views.updatestatus,name="updatestatus"),
 ]
