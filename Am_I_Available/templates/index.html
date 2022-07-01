@@ -68,6 +68,9 @@
           </li>
 				</ul>
 			</div>
+      {%if request.session.sessionid and request.session.status%}
+			<a href="updatestatus" class="menu-block">{{request.session.status}}</a>
+      {% endif %}
       {% if request.session.sessionid %}
 			<a href="logout" class="menu-block">Logout</a>
       {%else%}

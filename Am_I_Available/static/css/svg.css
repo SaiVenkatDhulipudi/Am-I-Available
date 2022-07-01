@@ -52,9 +52,10 @@
   margin-top: 0px;
   font-size: 20px;
   line-height: 40px;
-  font-family: Consolas, Monaco, monospace;
+  font-weight:bolder;
+  font-family: "Poppins", sans-serif, "Segoe UI", Tahoma, Geneva, Verdana;
   /* background-color: cyan; */
-  color: black;
+  color: rgb(0, 0, 0);
   padding: 20px;
   padding-left: 0px;
 }

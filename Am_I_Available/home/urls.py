@@ -25,4 +25,5 @@ urlpatterns = [
     path('status',views.status,name="status"),
     path("Search",views.search,name="search"),
     path('Faculty_Registration',views.Faculty_registration,name="Registration"),
+    path('updatestatus',views.updatestatus,name="updatestatus"),
 ]

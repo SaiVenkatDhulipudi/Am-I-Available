@@ -43,6 +43,7 @@ body{
 .wrapper .form .inputfield label{
    width: 200px;
    color: black;
+   margin-left: 40px;
    margin-right: 10px;
   font-size: 14px;
 }
@@ -151,7 +152,7 @@ body{
   font-size: 15px; 
   border: 0px;
   background:  #4070f4;
-  color: #4070f4;
+  color: #ffffff;
   cursor: pointer;
   border-radius: 3px;
   outline: none;

@@ -1,6 +1,6 @@
 {% extends "index.html" %}
 {% block content %}
-<form action="search" method="POST">
+<form action="Search" method="POST">
     {% csrf_token %}
     <div class="wrapper">
         <div class="title">
@@ -12,10 +12,8 @@
               <div class="custom_select">
                 <select name="emp" required>
                   <option value="">select</option>
-                  {% for sub in resp %}
-                  {% for key,values in sub  %}
-                  <option value="{{key}}">{{values}}</option>
-                  {% endfor %}
+                  {% for key,value in responses.items  %}
+                  <option value="{{key}}">{{value}}</option>
                   {% endfor %}
                 </select>
               </div>

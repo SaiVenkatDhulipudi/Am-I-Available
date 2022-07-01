@@ -97,6 +97,7 @@ def login(request):
                             break
                     if flag:
                         x=db.child("status").child(request.session["faculty"]).get().val()
+                        request.session["status"]=x
                         return render(request,"index1.html",{"status":x})
             return render(request,"index1.html")
         except:
@@ -126,6 +127,18 @@ def signup(request):
             
         
     return render(request,"signup.html")
+def updatestatus(request):
+    if request.method=="POST":
+        st=request.POST["status"]
+        help=helper()
+        auth=help.auth
+        db=help.db
+        id=request.session["faculty"]
+        db.child("status").child(id).set(st)
+        request.session["status"]=st
+
+        return redirect("/")
+    return render(request,"statusform.html")
 def status(request):
     if request.method=="POST":
         db=help.db
@@ -138,21 +151,28 @@ def status(request):
     data=db.child("status").child(id).get()
     return render(request,"statusform.html",{"status":data.val()})
 def search(request):
+    help=helper()
+    auth=help.auth
+    db=help.db
+    br=branch()
     if request.method!="POST":
-        help=helper()
-        auth=help.auth
-        db=help.db
-        br=branch()
         responses={}
         for i in br.departments:
             dat=db.child("faculty").child(i).get().val()
             if dat!=None and len(dat):
                 for id in dat:
                     responses[id]=dat[id]["name"]
-        print(responses)
-        return render(request,"search.html",{'resp':responses})
-            
-                    
+        return render(request,"search.html",{"responses":responses})
+    else:
+        ID=request.POST["emp"]
+        for i in br.departments:
+            dat=db.child("faculty").child(i).get().val()
+            if dat!=None and len(dat):
+                for id in dat:
+                    if id==ID:
+                        name=dat[id]["name"]
+                        status=db.child("status").child(ID).get().val()
+                        return render(request,"profile.html",{"name":name,"status":status})              
     return render(request,"search.html")
 
 def Faculty_registration(request):
