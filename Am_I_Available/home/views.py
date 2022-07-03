@@ -49,9 +49,8 @@ class helper():
     'projectId': "miniproject-48f5c",
     'storageBucket': "miniproject-48f5c.appspot.com",
     'messagingSenderId': "934194697745",
-    ' appId': "1:934194697745:web:20774e4e9de4890ca803b0",
-    ' measurementId': "G-QC8HD1ZKVY"
-
+    'appId': "1:934194697745:web:20774e4e9de4890ca803b0",
+    'measurementId': "G-QC8HD1ZKVY"
     };
 
         firebase= pyrebase.initialize_app(Config)
