@@ -6,7 +6,7 @@ from collections import defaultdict
 import qrcode
 from cryptography.fernet import Fernet
 import PIL
-import json
+
 class branch:
     def __init__(self) -> None:
         self.departments=defaultdict(lambda:'')
@@ -98,15 +98,14 @@ def login(request):
                         x=db.child("status").child(request.session["faculty"]).get().val()
                         request.session["status"]=x
                         return render(request,"index1.html",{"status":x})
-            return render(request,"index1.html")
+            return render(request,"index1.html",)
         except:
             return render(request,"login.html",{"message":"Enter vaild Credentials"})
     return render(request,"login.html")
 def logout(request):
     if request.session.get("sessionid",False):
         del request.session["sessionid"]
-        return render(request,"index1.html")
-    return redirect("/")
+        return redirect("/",permanent=True)
 def signup(request):
     if request.method=="POST":
         email=request.POST["email"]
@@ -123,8 +122,6 @@ def signup(request):
             return redirect("/")
         except:
             return render(request,"signup.html")
-            
-        
     return render(request,"signup.html")
 def updatestatus(request):
     if request.method=="POST":
@@ -136,20 +133,11 @@ def updatestatus(request):
         db.child("status").child(id).set(st)
         request.session["status"]=st
 
-        return redirect("/")
+        return redirect("/",permanent=True)
     return render(request,"statusform.html")
-def status(request):
-    if request.method=="POST":
-        db=help.db
-        data=db.child("status").child(id).set(request.POST["status"])
-        return redirect("/")
-    id=request.session["faculty"]
-    help=helper()
-    auth=help.auth
-    db=help.db
-    data=db.child("status").child(id).get()
-    return render(request,"statusform.html",{"status":data.val()})
 def search(request):
+    if not request.session.get("sessionid",False):
+        return redirect("/login",permanent=True)
     help=helper()
     auth=help.auth
     db=help.db
@@ -173,7 +161,15 @@ def search(request):
                         status=db.child("status").child(ID).get().val()
                         return render(request,"profile.html",{"name":name,"status":status})              
     return render(request,"search.html")
-
+def forgotpassword(request):
+    if request.method=="POST":
+        try:
+            help=helper()
+            auth=help.auth
+            auth.send_password_reset_email(request.POST["email"])
+        except:
+            return render(request,"forgotpassword.html",{"message":"Invalid Email address"})
+    return render(request,"forgotpassword.html")
 def Faculty_registration(request):
     if request.method=="POST":
         data=defaultdict(lambda:0)
